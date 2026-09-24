@@ -8,36 +8,54 @@
 
 ### 🌐 Find me around the internet
 
-<a href="https://www.linkedin.com/in/jilkabir/"><img src="https://img.shields.io/badge/LinkedIn-Jhilik%20Kabir-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-<a href="mailto:hello@jkabir.com"><img src="https://img.shields.io/badge/Email-hello%40jkabir.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
-<a href="https://www.instagram.com/jilkabir"><img src="https://img.shields.io/badge/Instagram-@jilkabir-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"></a>
-<a href="https://x.com/JillKabir"><img src="https://img.shields.io/badge/X-@JillKabir-111111?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
-<a href="https://www.threads.com/@jilkabir"><img src="https://img.shields.io/badge/Threads-@jilkabir-000000?style=for-the-badge&logo=threads&logoColor=white" alt="Threads"></a>
-<a href="https://www.youtube.com/@LazzyTravelers"><img src="https://img.shields.io/badge/YouTube-Lazzy%20Travelers-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube"></a>
+<p align="center">
+  <a href="https://www.linkedin.com/in/jilkabir/">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="mailto:hello@jkabir.com">
+    <img src="https://img.shields.io/badge/Email-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
+  <a href="https://www.instagram.com/jilkabir">
+    <img src="https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram" />
+  </a>
+  <a href="https://x.com/JillKabir">
+    <img src="https://img.shields.io/badge/X-111111?style=for-the-badge&logo=x&logoColor=white" alt="X" />
+  </a>
+  <a href="https://www.threads.com/@jilkabir">
+    <img src="https://img.shields.io/badge/Threads-000000?style=for-the-badge&logo=threads&logoColor=white" alt="Threads" />
+  </a>
+</p>
 
-<br/>
+<p align="center">
+  <a href="https://www.youtube.com/@LazzyTravelers">
+    <img src="https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white" alt="YouTube" />
+  </a>
+  <a href="https://profiles.wordpress.org/jilkabir/">
+    <img src="https://img.shields.io/badge/WordPress.org-21759B?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress.org" />
+  </a>
+  <a href="https://www.quora.com/profile/Jil-Kabir">
+    <img src="https://img.shields.io/badge/Quora-B92B27?style=for-the-badge&logo=quora&logoColor=white" alt="Quora" />
+  </a>
+  <a href="https://www.researchgate.net/profile/Jhilik-Kabir">
+    <img src="https://img.shields.io/badge/ResearchGate-00CCBB?style=for-the-badge&logo=researchgate&logoColor=white" alt="ResearchGate" />
+  </a>
+  <a href="https://orcid.org/0009-0005-0519-5147">
+    <img src="https://img.shields.io/badge/ORCID-A6CE39?style=for-the-badge&logo=orcid&logoColor=white" alt="ORCID" />
+  </a>
+  <a href="https://github.com/jilkabir">
+    <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
+  </a>
+</p>
 
-<a href="https://profiles.wordpress.org/jilkabir/"><img src="https://img.shields.io/badge/WordPress.org-jilkabir-21759B?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress.org"></a>
-<a href="https://www.quora.com/profile/Jil-Kabir"><img src="https://img.shields.io/badge/Quora-Jil%20Kabir-B92B27?style=for-the-badge&logo=quora&logoColor=white" alt="Quora"></a>
-<a href="https://www.researchgate.net/profile/Jhilik-Kabir"><img src="https://img.shields.io/badge/ResearchGate-Jhilik%20Kabir-00CCBB?style=for-the-badge&logo=researchgate&logoColor=white" alt="ResearchGate"></a>
-<a href="https://orcid.org/0009-0005-0519-5147"><img src="https://img.shields.io/badge/ORCID-0009--0005--0519--5147-A6CE39?style=for-the-badge&logo=orcid&logoColor=white" alt="ORCID"></a>
-<a href="https://github.com/jilkabir"><img src="https://img.shields.io/badge/GitHub-@jilkabir-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
+<p align="center">
+  <a href="https://jilkabir.github.io/jilkabir/game/">
+    <img src="https://img.shields.io/badge/PLAY%20SNACK%20SNAKE-8B5CF6?style=for-the-badge" alt="Play Snack Snake" />
+  </a>
+</p>
 
-<br/><br/>
-
-<a href="https://jilkabir.github.io/jilkabir/game/"><img src="https://img.shields.io/badge/PLAY-Snack%20Snake-8B5CF6?style=for-the-badge" alt="Play Snack Snake"></a>
-
-<br/>
-<sub>Research, builds, travel, writing, experiments — pick your rabbit hole 🐇</sub>
-
-<br/><br/>
-
-<b>Good brands talk. Great brands connect.</b><br/>
-<sub>I like finding the story, system, or research question underneath a messy problem — then turning it into something useful.</sub>
-
-</div>
-
----
+<p align="center">
+  <sub>Research, builds, travel, writing, experiments — pick your rabbit hole 🐇</sub>
+</p>
 
 ## 👋 A little about me
 
