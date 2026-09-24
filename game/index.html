@@ -1,0 +1,629 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jil's Commit Snake</title>
+  <meta name="description" content="A tiny GitHub-themed snake game by Jhilik Kabir." />
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --panel-2: #111827;
+      --text: #f0f6fc;
+      --muted: #9ca3af;
+      --border: #30363d;
+      --pink: #ec4899;
+      --purple: #8b5cf6;
+      --cyan: #22d3ee;
+      --green: #3fb950;
+      --danger: #f85149;
+      color-scheme: dark;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(236,72,153,.18), transparent 28%),
+        radial-gradient(circle at 85% 15%, rgba(34,211,238,.16), transparent 26%),
+        radial-gradient(circle at 50% 90%, rgba(139,92,246,.16), transparent 32%),
+        var(--bg);
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+
+    .shell {
+      width: min(100%, 820px);
+      display: grid;
+      gap: 18px;
+    }
+
+    .hero {
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      color: var(--muted);
+      background: rgba(22,27,34,.72);
+      font-size: 13px;
+      backdrop-filter: blur(10px);
+    }
+
+    h1 {
+      margin: 14px 0 6px;
+      font-size: clamp(34px, 7vw, 58px);
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(90deg, var(--pink), #c084fc, var(--cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      margin: 0 auto;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    .card {
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      background: rgba(22,27,34,.88);
+      box-shadow: 0 18px 70px rgba(0,0,0,.28);
+      overflow: hidden;
+      backdrop-filter: blur(14px);
+    }
+
+    .topbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stats {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .stat {
+      min-width: 92px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-bottom: 2px;
+    }
+
+    .stat strong {
+      font-size: 20px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    button, select, a.button {
+      min-height: 42px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #21262d;
+      color: var(--text);
+      font: inherit;
+    }
+
+    button, a.button {
+      cursor: pointer;
+      padding: 0 14px;
+      font-weight: 700;
+    }
+
+    button.primary {
+      border: 0;
+      background: linear-gradient(90deg, var(--pink), var(--purple));
+    }
+
+    button:hover, a.button:hover {
+      border-color: #6e7681;
+    }
+
+    select {
+      padding: 0 12px;
+    }
+
+    .stage-wrap {
+      padding: 16px;
+    }
+
+    .stage {
+      position: relative;
+      width: min(100%, 620px);
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      background: #0b0f14;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: pixelated;
+    }
+
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(13,17,23,.62);
+      backdrop-filter: blur(4px);
+      text-align: center;
+    }
+
+    .overlay[hidden] { display: none; }
+
+    .overlay-box {
+      max-width: 420px;
+    }
+
+    .overlay h2 {
+      margin: 0 0 8px;
+      font-size: clamp(24px, 6vw, 38px);
+    }
+
+    .overlay p {
+      color: var(--muted);
+      line-height: 1.5;
+      margin: 0 0 16px;
+    }
+
+    .message {
+      min-height: 24px;
+      padding: 0 16px 14px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    .controls {
+      padding: 0 16px 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .keys {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    kbd {
+      display: inline-block;
+      padding: 3px 7px;
+      margin: 2px;
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      border-radius: 7px;
+      background: #0d1117;
+      color: var(--text);
+      font-family: inherit;
+    }
+
+    .dpad {
+      width: 196px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(3, 60px);
+      grid-template-rows: repeat(2, 52px);
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .dpad button {
+      padding: 0;
+      font-size: 20px;
+    }
+
+    .dpad .up { grid-column: 2; grid-row: 1; }
+    .dpad .left { grid-column: 1; grid-row: 2; }
+    .dpad .down { grid-column: 2; grid-row: 2; }
+    .dpad .right { grid-column: 3; grid-row: 2; }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+    }
+
+    a {
+      color: #a5b4fc;
+      text-decoration: none;
+    }
+
+    .spark {
+      display: inline-block;
+      animation: float 2.4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-4px) rotate(8deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .spark { animation: none; }
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 14px; }
+      .card { border-radius: 18px; }
+      .topbar { align-items: stretch; }
+      .actions { width: 100%; }
+      .actions button, .actions select { flex: 1; }
+      .stage-wrap { padding: 10px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span class="spark">✨</span> JIL'S GITHUB ARCADE · 2026</div>
+      <h1>Commit Snake</h1>
+      <p class="subtitle">Eat the glowing commits, grow your branch, and try not to crash into your own code. Built as a tiny playable easter egg for my GitHub profile.</p>
+    </section>
+
+    <section class="card" aria-label="Snake game">
+      <div class="topbar">
+        <div class="stats">
+          <div class="stat"><span>Commits</span><strong id="score">0</strong></div>
+          <div class="stat"><span>Best</span><strong id="best">0</strong></div>
+          <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+        </div>
+        <div class="actions">
+          <select id="speed" aria-label="Difficulty">
+            <option value="155">Chill</option>
+            <option value="120" selected>Builder</option>
+            <option value="88">Ship mode</option>
+          </select>
+          <button id="pauseBtn" type="button">Pause</button>
+          <button id="restartBtn" class="primary" type="button">Restart</button>
+        </div>
+      </div>
+
+      <div class="stage-wrap">
+        <div class="stage" id="stage" tabindex="0" aria-label="Playable snake board. Use arrow keys or WASD.">
+          <canvas id="game" width="600" height="600"></canvas>
+          <div class="overlay" id="overlay">
+            <div class="overlay-box">
+              <h2 id="overlayTitle">Ready to ship? 🚀</h2>
+              <p id="overlayText">Use Arrow keys or WASD. On mobile, use the controls below. Eat commits. Avoid walls and yourself.</p>
+              <button id="startBtn" class="primary" type="button">Start game</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="message" id="message" aria-live="polite">Tip: press <strong>Space</strong> to pause.</div>
+
+      <div class="controls">
+        <div class="dpad" aria-label="Touch controls">
+          <button class="up" data-dir="up" type="button" aria-label="Move up">↑</button>
+          <button class="left" data-dir="left" type="button" aria-label="Move left">←</button>
+          <button class="down" data-dir="down" type="button" aria-label="Move down">↓</button>
+          <button class="right" data-dir="right" type="button" aria-label="Move right">→</button>
+        </div>
+        <div class="keys">
+          Desktop:
+          <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd>
+          or <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>
+          · <kbd>Space</kbd> pause
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      <span>Made with curiosity by <a href="https://github.com/jilkabir">Jhilik Kabir</a>.</span>
+      <span>·</span>
+      <a href="https://github.com/jilkabir">Back to GitHub</a>
+    </div>
+  </main>
+
+  <script>
+    (() => {
+      const canvas = document.getElementById('game');
+      const ctx = canvas.getContext('2d');
+      const stage = document.getElementById('stage');
+      const scoreEl = document.getElementById('score');
+      const bestEl = document.getElementById('best');
+      const levelEl = document.getElementById('level');
+      const messageEl = document.getElementById('message');
+      const overlay = document.getElementById('overlay');
+      const overlayTitle = document.getElementById('overlayTitle');
+      const overlayText = document.getElementById('overlayText');
+      const startBtn = document.getElementById('startBtn');
+      const restartBtn = document.getElementById('restartBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const speedSelect = document.getElementById('speed');
+
+      const GRID = 20;
+      const CELL = canvas.width / GRID;
+      const commitColors = ['#ec4899', '#c084fc', '#8b5cf6', '#22d3ee', '#3fb950'];
+
+      let snake = [];
+      let dir = { x: 1, y: 0 };
+      let nextDir = { x: 1, y: 0 };
+      let food = { x: 14, y: 10 };
+      let score = 0;
+      let level = 1;
+      let running = false;
+      let paused = false;
+      let timer = null;
+      let tickMs = Number(speedSelect.value);
+      let best = Number(localStorage.getItem('jil-commit-snake-best') || 0);
+      bestEl.textContent = String(best);
+
+      function resetGame() {
+        snake = [
+          { x: 8, y: 10 },
+          { x: 7, y: 10 },
+          { x: 6, y: 10 },
+          { x: 5, y: 10 }
+        ];
+        dir = { x: 1, y: 0 };
+        nextDir = { x: 1, y: 0 };
+        score = 0;
+        level = 1;
+        tickMs = Number(speedSelect.value);
+        scoreEl.textContent = '0';
+        levelEl.textContent = '1';
+        messageEl.innerHTML = 'Tip: press <strong>Space</strong> to pause.';
+        spawnFood();
+        draw();
+      }
+
+      function spawnFood() {
+        let candidate;
+        do {
+          candidate = {
+            x: Math.floor(Math.random() * GRID),
+            y: Math.floor(Math.random() * GRID)
+          };
+        } while (snake.some(s => s.x === candidate.x && s.y === candidate.y));
+        food = candidate;
+      }
+
+      function setDirection(x, y) {
+        if (!running || paused) return;
+        if (x === -dir.x && y === -dir.y) return;
+        nextDir = { x, y };
+      }
+
+      function update() {
+        dir = nextDir;
+        const head = { x: snake[0].x + dir.x, y: snake[0].y + dir.y };
+
+        const hitWall = head.x < 0 || head.x >= GRID || head.y < 0 || head.y >= GRID;
+        const hitSelf = snake.some(s => s.x === head.x && s.y === head.y);
+
+        if (hitWall || hitSelf) {
+          gameOver();
+          return;
+        }
+
+        snake.unshift(head);
+
+        if (head.x === food.x && head.y === food.y) {
+          score += 1;
+          level = 1 + Math.floor(score / 5);
+          scoreEl.textContent = String(score);
+          levelEl.textContent = String(level);
+
+          if (score > best) {
+            best = score;
+            bestEl.textContent = String(best);
+            localStorage.setItem('jil-commit-snake-best', String(best));
+          }
+
+          const lines = [
+            'Nice commit ✨ keep shipping.',
+            'Branch is growing 🌱',
+            'No merge conflict so far 😎',
+            'Research → build → ship 🚀',
+            'Clean commit. Zero drama.'
+          ];
+          messageEl.textContent = lines[Math.floor(Math.random() * lines.length)];
+
+          spawnFood();
+          const base = Number(speedSelect.value);
+          tickMs = Math.max(58, base - (level - 1) * 6);
+          restartTimer();
+        } else {
+          snake.pop();
+        }
+
+        draw();
+      }
+
+      function restartTimer() {
+        clearInterval(timer);
+        if (running && !paused) timer = setInterval(update, tickMs);
+      }
+
+      function drawRoundedCell(x, y, color, inset = 3, radius = 7) {
+        const px = x * CELL + inset;
+        const py = y * CELL + inset;
+        const size = CELL - inset * 2;
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        if (ctx.roundRect) {
+          ctx.roundRect(px, py, size, size, radius);
+        } else {
+          ctx.rect(px, py, size, size);
+        }
+        ctx.fill();
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = '#0b0f14';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.strokeStyle = 'rgba(148,163,184,.07)';
+        ctx.lineWidth = 1;
+        for (let i = 1; i < GRID; i++) {
+          const p = i * CELL;
+          ctx.beginPath();
+          ctx.moveTo(p, 0);
+          ctx.lineTo(p, canvas.height);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(0, p);
+          ctx.lineTo(canvas.width, p);
+          ctx.stroke();
+        }
+
+        snake.forEach((s, i) => {
+          const t = i / Math.max(1, snake.length - 1);
+          const color = i === 0 ? '#f472b6' : (t < .5 ? '#a78bfa' : '#22d3ee');
+          drawRoundedCell(s.x, s.y, color, 3, 8);
+        });
+
+        const fx = food.x * CELL + CELL / 2;
+        const fy = food.y * CELL + CELL / 2;
+        const pulse = 9 + Math.sin(Date.now() / 180) * 2;
+        ctx.save();
+        ctx.shadowColor = commitColors[score % commitColors.length];
+        ctx.shadowBlur = 18;
+        ctx.fillStyle = commitColors[score % commitColors.length];
+        ctx.beginPath();
+        ctx.arc(fx, fy, pulse, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = .92;
+        ctx.beginPath();
+        ctx.arc(fx - 3, fy - 3, 2.2, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      function startGame() {
+        resetGame();
+        running = true;
+        paused = false;
+        pauseBtn.textContent = 'Pause';
+        overlay.hidden = true;
+        stage.focus();
+        restartTimer();
+      }
+
+      function gameOver() {
+        running = false;
+        paused = false;
+        clearInterval(timer);
+        overlayTitle.textContent = score >= 15 ? 'Legendary branch 🌟' : score >= 7 ? 'Solid shipping! 🚀' : 'Oops — merge conflict 😅';
+        overlayText.textContent = 'You collected ' + score + ' commit' + (score === 1 ? '' : 's') + '. Best score: ' + best + '.';
+        startBtn.textContent = 'Play again';
+        overlay.hidden = false;
+        pauseBtn.textContent = 'Pause';
+      }
+
+      function togglePause() {
+        if (!running) return;
+        paused = !paused;
+        pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+        messageEl.textContent = paused ? 'Paused. Your branch is safe.' : 'Back to shipping 🚀';
+        if (paused) clearInterval(timer);
+        else restartTimer();
+      }
+
+      function handleKey(event) {
+        const key = event.key.toLowerCase();
+        const map = {
+          arrowup: [0, -1], w: [0, -1],
+          arrowdown: [0, 1], s: [0, 1],
+          arrowleft: [-1, 0], a: [-1, 0],
+          arrowright: [1, 0], d: [1, 0]
+        };
+
+        if (key === ' ') {
+          event.preventDefault();
+          togglePause();
+          return;
+        }
+
+        if (map[key]) {
+          event.preventDefault();
+          setDirection(map[key][0], map[key][1]);
+        }
+      }
+
+      startBtn.addEventListener('click', startGame);
+      restartBtn.addEventListener('click', startGame);
+      pauseBtn.addEventListener('click', togglePause);
+
+      speedSelect.addEventListener('change', () => {
+        tickMs = Number(speedSelect.value);
+        if (running && !paused) restartTimer();
+      });
+
+      document.querySelectorAll('[data-dir]').forEach(button => {
+        button.addEventListener('click', () => {
+          const d = button.dataset.dir;
+          if (d === 'up') setDirection(0, -1);
+          if (d === 'down') setDirection(0, 1);
+          if (d === 'left') setDirection(-1, 0);
+          if (d === 'right') setDirection(1, 0);
+          stage.focus();
+        });
+      });
+
+      window.addEventListener('keydown', handleKey);
+
+      resetGame();
+
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const animateFood = () => {
+          if (!running || paused) draw();
+          requestAnimationFrame(animateFood);
+        };
+        requestAnimationFrame(animateFood);
+      }
+    })();
+  </script>
+</body>
+</html>
