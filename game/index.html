@@ -4,591 +4,353 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jil's Snack Snake</title>
-  <meta name="description" content="A playful mouse-following snake game by Jhilik Kabir." />
+  <meta name="description" content="A super easy mouse-following snack snake game by Jhilik Kabir." />
   <style>
     :root{
-      --bg:#0b1020;
-      --panel:#12182b;
-      --panel2:#171f35;
-      --text:#f8fafc;
-      --muted:#9fb0c8;
-      --border:#2a3653;
-      --pink:#ff5fa2;
-      --purple:#9b6cff;
-      --cyan:#4de7ff;
-      --green:#5cff9d;
-      --yellow:#ffd166;
+      --bg:#0b1020;--panel:#12182b;--text:#f8fafc;--muted:#9fb0c8;--border:#2a3653;
+      --pink:#ff5fa2;--purple:#9b6cff;--cyan:#4de7ff;--green:#5cff9d;--yellow:#ffd166;
       color-scheme:dark;
     }
     *{box-sizing:border-box}
     body{
-      margin:0;
-      min-height:100vh;
+      margin:0;min-height:100vh;padding:18px;
       font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
       color:var(--text);
       background:
         radial-gradient(circle at 15% 15%,rgba(255,95,162,.18),transparent 28%),
         radial-gradient(circle at 85% 10%,rgba(77,231,255,.16),transparent 25%),
-        radial-gradient(circle at 50% 95%,rgba(155,108,255,.18),transparent 30%),
-        var(--bg);
-      display:grid;
-      place-items:center;
-      padding:22px;
+        radial-gradient(circle at 50% 95%,rgba(155,108,255,.18),transparent 30%),var(--bg);
+      display:grid;place-items:center;
     }
-    .wrap{width:min(100%,900px);display:grid;gap:16px}
+    .wrap{width:min(100%,920px);display:grid;gap:14px}
     .hero{text-align:center}
-    .tag{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding:7px 11px;
-      border:1px solid var(--border);
-      background:rgba(18,24,43,.75);
-      border-radius:999px;
-      color:var(--muted);
-      font-size:13px;
-    }
-    h1{
-      margin:12px 0 6px;
-      font-size:clamp(34px,6vw,58px);
-      line-height:1;
-      letter-spacing:-.04em;
-      background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .sub{margin:0 auto;max-width:680px;color:var(--muted);line-height:1.55;font-size:15px}
-    .card{
-      overflow:hidden;
-      border:1px solid var(--border);
-      border-radius:22px;
-      background:rgba(18,24,43,.9);
-      box-shadow:0 22px 70px rgba(0,0,0,.3);
-      backdrop-filter:blur(12px);
-    }
-    .bar{
-      display:flex;
-      flex-wrap:wrap;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:14px 16px;
-      border-bottom:1px solid var(--border);
-    }
-    .stats{display:flex;gap:18px;flex-wrap:wrap}
-    .stat span{display:block;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+    .tag{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--border);border-radius:999px;background:rgba(18,24,43,.78);color:var(--muted);font-size:13px}
+    h1{margin:10px 0 5px;font-size:clamp(34px,6vw,56px);line-height:1;letter-spacing:-.04em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+    .sub{margin:0 auto;max-width:720px;color:var(--muted);font-size:15px;line-height:1.5}
+    .card{overflow:hidden;border:1px solid var(--border);border-radius:22px;background:rgba(18,24,43,.9);box-shadow:0 20px 70px rgba(0,0,0,.3)}
+    .bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border)}
+    .stats{display:flex;gap:20px;flex-wrap:wrap}
+    .stat span{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
     .stat strong{font-size:21px}
-    .actions{display:flex;gap:8px;flex-wrap:wrap}
-    button{
-      min-height:42px;
-      padding:0 14px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      color:var(--text);
-      background:#20283d;
-      font:inherit;
-      font-weight:700;
-      cursor:pointer;
-    }
-    button:hover{border-color:#607091}
-    button.primary{border:0;background:linear-gradient(90deg,var(--pink),var(--purple))}
-    .stageWrap{padding:14px}
+    button{min-height:42px;padding:0 14px;border-radius:12px;border:0;color:white;background:linear-gradient(90deg,var(--pink),var(--purple));font:inherit;font-weight:800;cursor:pointer}
+    .stageWrap{padding:12px}
     .stage{
-      position:relative;
-      width:100%;
-      aspect-ratio:16/10;
-      min-height:360px;
-      border:1px solid var(--border);
-      border-radius:18px;
-      overflow:hidden;
-      background:
-        linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
-        #090d18;
-      background-size:30px 30px;
-      touch-action:none;
-      cursor:crosshair;
+      position:relative;width:100%;aspect-ratio:16/10;min-height:360px;overflow:hidden;
+      border:1px solid var(--border);border-radius:18px;background:#090d18;cursor:crosshair;touch-action:none;
     }
-    canvas{display:block;width:100%;height:100%}
-    .start{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      padding:24px;
-      background:rgba(9,13,24,.64);
-      backdrop-filter:blur(4px);
-      text-align:center;
+    canvas{width:100%;height:100%;display:block}
+    .hint{
+      position:absolute;left:50%;top:16px;transform:translateX(-50%);
+      padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(9,13,24,.72);backdrop-filter:blur(6px);color:#dbeafe;font-size:12px;pointer-events:none;
     }
-    .start[hidden]{display:none}
-    .startBox{max-width:470px}
-    .startBox h2{margin:0 0 8px;font-size:clamp(26px,5vw,40px)}
-    .startBox p{margin:0 0 16px;color:var(--muted);line-height:1.5}
-    .tips{
-      display:flex;
-      justify-content:center;
-      flex-wrap:wrap;
-      gap:8px;
-      padding:0 16px 16px;
-      color:var(--muted);
-      font-size:13px;
-      text-align:center;
-    }
-    .pill{
-      border:1px solid var(--border);
-      background:#0f1526;
-      border-radius:999px;
-      padding:7px 10px;
-    }
+    .tips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 14px 16px;color:var(--muted);font-size:13px}
+    .pill{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:#0f1526}
     .footer{text-align:center;color:var(--muted);font-size:13px}
     a{color:#aab7ff;text-decoration:none}
-    @media (max-width:620px){
-      body{padding:12px}
-      .stage{aspect-ratio:4/5;min-height:0}
-      .bar{align-items:stretch}
-      .actions{width:100%}
-      .actions button{flex:1}
+    @media(max-width:620px){
+      body{padding:10px}.stage{min-height:280px;aspect-ratio:4/5}.bar{align-items:stretch}.stats{gap:14px}.stat strong{font-size:18px}
     }
   </style>
 </head>
 <body>
-  <main class="wrap">
-    <section class="hero">
-      <div class="tag">🎮 JIL'S GITHUB ARCADE · TIMEPASS MODE</div>
-      <h1>Snack Snake</h1>
-      <p class="sub">Move your mouse. The snake chases it. Eat food, grow longer, collect combos, and just vibe. No walls, no stress, just snacks. 😄</p>
-    </section>
+<main class="wrap">
+  <section class="hero">
+    <div class="tag">🎮 JIL'S GITHUB ARCADE · EASY MODE</div>
+    <h1>Snack Snake</h1>
+    <p class="sub">Just move your mouse. The snake follows it. Guide the snake onto the big fruits, eat, grow, repeat. No game over. No stress. 😄</p>
+  </section>
 
-    <section class="card">
-      <div class="bar">
-        <div class="stats">
-          <div class="stat"><span>Food</span><strong id="score">0</strong></div>
-          <div class="stat"><span>Length</span><strong id="length">10</strong></div>
-          <div class="stat"><span>Combo</span><strong id="combo">x1</strong></div>
-          <div class="stat"><span>Best</span><strong id="best">0</strong></div>
-        </div>
-        <div class="actions">
-          <button id="boostBtn" type="button">⚡ Boost</button>
-          <button id="restartBtn" class="primary" type="button">Restart</button>
-        </div>
+  <section class="card">
+    <div class="bar">
+      <div class="stats">
+        <div class="stat"><span>Fruits</span><strong id="score">0</strong></div>
+        <div class="stat"><span>Snake size</span><strong id="length">12</strong></div>
+        <div class="stat"><span>Best</span><strong id="best">0</strong></div>
       </div>
+      <button id="restartBtn" type="button">Restart snacks</button>
+    </div>
 
-      <div class="stageWrap">
-        <div class="stage" id="stage" tabindex="0" aria-label="Mouse-following snake game">
-          <canvas id="game" width="960" height="600"></canvas>
-          <div class="start" id="startOverlay">
-            <div class="startBox">
-              <h2>Feed the snake 🍕</h2>
-              <p>Move your mouse inside the game. On mobile, drag your finger. The snake follows you and grows every time it eats.</p>
-              <button id="startBtn" class="primary" type="button">Start snacking</button>
-            </div>
-          </div>
-        </div>
+    <div class="stageWrap">
+      <div class="stage" id="stage">
+        <canvas id="game" width="960" height="600" aria-label="Easy mouse-following snake game"></canvas>
+        <div class="hint">🖱️ Move your mouse toward a fruit — the snake follows</div>
       </div>
+    </div>
 
-      <div class="tips">
-        <span class="pill">🖱️ Move mouse = steer</span>
-        <span class="pill">👆 Touch + drag = steer</span>
-        <span class="pill">⚡ Hold click / press Boost = speed burst</span>
-        <span class="pill">🍓 Golden food = bonus growth</span>
-      </div>
-    </section>
+    <div class="tips">
+      <span class="pill">🍎 5 big fruits always visible</span>
+      <span class="pill">🐍 Snake follows your mouse</span>
+      <span class="pill">✨ Bigger hit area = easier eating</span>
+      <span class="pill">📱 Touch + drag works too</span>
+    </div>
+  </section>
 
-    <div class="footer">Made for fun by <a href="https://github.com/jilkabir">Jhilik Kabir</a> · GitHub Arcade 2026 ✨</div>
-  </main>
+  <div class="footer">Made for fun by <a href="https://github.com/jilkabir">Jhilik Kabir</a> · GitHub Arcade 2026 ✨</div>
+</main>
 
-  <script>
-  (() => {
-    const canvas = document.getElementById('game');
-    const ctx = canvas.getContext('2d');
-    const stage = document.getElementById('stage');
-    const scoreEl = document.getElementById('score');
-    const lengthEl = document.getElementById('length');
-    const comboEl = document.getElementById('combo');
-    const bestEl = document.getElementById('best');
-    const startOverlay = document.getElementById('startOverlay');
-    const startBtn = document.getElementById('startBtn');
-    const restartBtn = document.getElementById('restartBtn');
-    const boostBtn = document.getElementById('boostBtn');
+<script>
+(() => {
+  const canvas = document.getElementById('game');
+  const ctx = canvas.getContext('2d');
+  const stage = document.getElementById('stage');
+  const scoreEl = document.getElementById('score');
+  const lengthEl = document.getElementById('length');
+  const bestEl = document.getElementById('best');
+  const restartBtn = document.getElementById('restartBtn');
 
-    const foods = ['🍓','🍕','🍩','🍒','🍇','🍪','🍉','🍔','🥨','🧁'];
-    const snakeColors = ['#ff5fa2','#b46cff','#7d8cff','#4de7ff','#5cff9d'];
+  const W = canvas.width, H = canvas.height;
+  const fruitTypes = [
+    {emoji:'🍎', color:'#ff5f6d'},
+    {emoji:'🍊', color:'#ff9f43'},
+    {emoji:'🍇', color:'#9b6cff'},
+    {emoji:'🍉', color:'#5cff9d'},
+    {emoji:'🍓', color:'#ff4d8d'},
+    {emoji:'🍒', color:'#ff5f6d'}
+  ];
+  const snakeColors = ['#ff5fa2','#b46cff','#7d8cff','#4de7ff','#5cff9d'];
 
-    let W = canvas.width;
-    let H = canvas.height;
-    let running = false;
-    let boosting = false;
-    let pointer = {x: W * .65, y: H * .5};
-    let head = {x: W * .35, y: H * .5, vx: 0, vy: 0};
-    let trail = [];
-    let targetSegments = 10;
-    let score = 0;
-    let combo = 1;
-    let lastEat = 0;
-    let best = Number(localStorage.getItem('jil-snack-snake-best') || 0);
-    let food = null;
-    let particles = [];
-    let lastTime = performance.now();
+  let pointer = {x: W * .66, y: H * .5};
+  let head = {x: W * .30, y: H * .5};
+  let trail = [];
+  let fruits = [];
+  let particles = [];
+  let segments = 12;
+  let score = 0;
+  let best = 0;
+  let last = performance.now();
 
-    bestEl.textContent = String(best);
+  try { best = Number(localStorage.getItem('jil-snack-snake-best') || 0); } catch (_) {}
+  bestEl.textContent = String(best);
 
-    function resizeCanvasToDisplaySize(){
-      const rect = canvas.getBoundingClientRect();
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const w = Math.max(320, Math.round(rect.width * dpr));
-      const h = Math.max(320, Math.round(rect.height * dpr));
-      if (canvas.width !== w || canvas.height !== h){
-        const oldW = W, oldH = H;
-        canvas.width = w;
-        canvas.height = h;
-        W = w; H = h;
-        const sx = oldW ? W / oldW : 1;
-        const sy = oldH ? H / oldH : 1;
-        head.x *= sx; head.y *= sy;
-        pointer.x *= sx; pointer.y *= sy;
-        trail.forEach(p => { p.x *= sx; p.y *= sy; });
-        if (food){ food.x *= sx; food.y *= sy; }
-      }
+  function fruitPosition() {
+    const margin = 78;
+    return {
+      x: margin + Math.random() * (W - margin * 2),
+      y: margin + Math.random() * (H - margin * 2)
+    };
+  }
+
+  function makeFruit() {
+    const type = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
+    const p = fruitPosition();
+    return {x:p.x,y:p.y,emoji:type.emoji,color:type.color,r:31,pulse:Math.random()*Math.PI*2};
+  }
+
+  function reset() {
+    pointer = {x:W*.66,y:H*.5};
+    head = {x:W*.30,y:H*.5};
+    trail = [];
+    for(let i=0;i<180;i++) trail.push({x:head.x-i*2.4,y:head.y});
+    fruits = Array.from({length:5}, makeFruit);
+    particles = [];
+    segments = 12;
+    score = 0;
+    scoreEl.textContent = '0';
+    lengthEl.textContent = String(segments);
+  }
+
+  function toGamePoint(e) {
+    const r = canvas.getBoundingClientRect();
+    return {
+      x: Math.max(0,Math.min(W,(e.clientX-r.left)*(W/r.width))),
+      y: Math.max(0,Math.min(H,(e.clientY-r.top)*(H/r.height)))
+    };
+  }
+
+  function eatFruit(index) {
+    const f = fruits[index];
+    score += 1;
+    segments += 2;
+    scoreEl.textContent = String(score);
+    lengthEl.textContent = String(segments);
+
+    if(score > best){
+      best = score;
+      bestEl.textContent = String(best);
+      try { localStorage.setItem('jil-snack-snake-best',String(best)); } catch (_) {}
     }
 
-    function randomFood(){
-      const margin = Math.max(55, Math.min(W,H) * .08);
-      const golden = Math.random() < .14;
-      food = {
-        x: margin + Math.random() * Math.max(1, W - margin * 2),
-        y: margin + Math.random() * Math.max(1, H - margin * 2),
-        emoji: golden ? '⭐' : foods[Math.floor(Math.random() * foods.length)],
-        golden,
-        r: golden ? 23 : 19,
-        pulse: Math.random() * Math.PI * 2
-      };
-    }
-
-    function reset(){
-      resizeCanvasToDisplaySize();
-      head = {x: W * .35, y: H * .5, vx: 0, vy: 0};
-      pointer = {x: W * .65, y: H * .5};
-      trail = [];
-      for(let i=0;i<80;i++) trail.push({x: head.x - i * 4, y: head.y});
-      targetSegments = 10;
-      score = 0;
-      combo = 1;
-      lastEat = 0;
-      particles = [];
-      scoreEl.textContent = '0';
-      lengthEl.textContent = String(targetSegments);
-      comboEl.textContent = 'x1';
-      randomFood();
-    }
-
-    function setPointerFromEvent(e){
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      pointer.x = Math.max(0, Math.min(W, (e.clientX - rect.left) * scaleX));
-      pointer.y = Math.max(0, Math.min(H, (e.clientY - rect.top) * scaleY));
-    }
-
-    function eatFood(now){
-      const growth = food.golden ? 4 : 1;
-      targetSegments += growth;
-      score += food.golden ? 3 : 1;
-
-      if (now - lastEat < 2400) combo = Math.min(combo + 1, 9);
-      else combo = 1;
-      lastEat = now;
-
-      scoreEl.textContent = String(score);
-      lengthEl.textContent = String(targetSegments);
-      comboEl.textContent = 'x' + combo;
-
-      if (score > best){
-        best = score;
-        bestEl.textContent = String(best);
-        localStorage.setItem('jil-snack-snake-best', String(best));
-      }
-
-      for(let i=0;i<(food.golden?26:14);i++){
-        particles.push({
-          x:food.x,
-          y:food.y,
-          vx:(Math.random()-.5) * (food.golden?9:6),
-          vy:(Math.random()-.5) * (food.golden?9:6),
-          life:1,
-          size:2 + Math.random()*5,
-          color: food.golden ? '#ffd166' : snakeColors[Math.floor(Math.random()*snakeColors.length)]
-        });
-      }
-
-      randomFood();
-    }
-
-    function update(dt, now){
-      const dx = pointer.x - head.x;
-      const dy = pointer.y - head.y;
-      const dist = Math.hypot(dx,dy) || 1;
-
-      const baseSpeed = Math.min(W,H) * (boosting ? 0.68 : 0.42);
-      const desiredVx = dx / dist * baseSpeed;
-      const desiredVy = dy / dist * baseSpeed;
-      const steer = 1 - Math.pow(0.00002, dt);
-      head.vx += (desiredVx - head.vx) * steer;
-      head.vy += (desiredVy - head.vy) * steer;
-
-      head.x += head.vx * dt;
-      head.y += head.vy * dt;
-
-      const pad = 14;
-      head.x = Math.max(pad, Math.min(W-pad, head.x));
-      head.y = Math.max(pad, Math.min(H-pad, head.y));
-
-      trail.unshift({x:head.x,y:head.y});
-
-      const spacing = Math.max(7, Math.min(W,H) * .014);
-      const neededPoints = Math.max(120, Math.ceil((targetSegments * spacing + 180) / 2));
-      while(trail.length > neededPoints * 3) trail.pop();
-
-      const fd = Math.hypot(head.x-food.x, head.y-food.y);
-      if(fd < food.r + 19){
-        eatFood(now);
-      }
-
-      if(now - lastEat > 3800 && combo !== 1){
-        combo = 1;
-        comboEl.textContent = 'x1';
-      }
-
-      particles.forEach(p=>{
-        p.x += p.vx * 60 * dt;
-        p.y += p.vy * 60 * dt;
-        p.vx *= Math.pow(.94, dt*60);
-        p.vy *= Math.pow(.94, dt*60);
-        p.life -= dt * 1.6;
+    for(let i=0;i<18;i++){
+      particles.push({
+        x:f.x,y:f.y,
+        vx:(Math.random()-.5)*7,
+        vy:(Math.random()-.5)*7,
+        life:1,
+        size:2+Math.random()*5,
+        color:f.color
       });
-      particles = particles.filter(p=>p.life>0);
+    }
+    fruits[index] = makeFruit();
+  }
+
+  function update(dt) {
+    const dx = pointer.x-head.x;
+    const dy = pointer.y-head.y;
+    const dist = Math.hypot(dx,dy);
+
+    if(dist > 2){
+      const follow = Math.min(1, dt * 4.2);
+      head.x += dx * follow;
+      head.y += dy * follow;
     }
 
-    function sampleBody(){
-      const pts = [];
-      if(!trail.length) return pts;
-      const spacing = Math.max(7, Math.min(W,H) * .014);
-      let acc = 0;
-      let prev = trail[0];
-      pts.push(prev);
+    head.x = Math.max(18,Math.min(W-18,head.x));
+    head.y = Math.max(18,Math.min(H-18,head.y));
 
-      for(let i=1;i<trail.length && pts.length<targetSegments;i++){
-        const cur = trail[i];
-        const d = Math.hypot(cur.x-prev.x, cur.y-prev.y);
-        acc += d;
-        if(acc >= spacing){
-          pts.push(cur);
-          acc = 0;
-        }
-        prev = cur;
+    trail.unshift({x:head.x,y:head.y});
+    const keep = Math.max(250, segments * 34);
+    if(trail.length > keep) trail.length = keep;
+
+    fruits.forEach((f,i)=>{
+      if(Math.hypot(head.x-f.x,head.y-f.y) < 58) eatFruit(i);
+    });
+
+    particles.forEach(p=>{
+      p.x += p.vx*60*dt;
+      p.y += p.vy*60*dt;
+      p.vx *= .96;
+      p.vy *= .96;
+      p.life -= dt*1.7;
+    });
+    particles = particles.filter(p=>p.life>0);
+  }
+
+  function drawBackground() {
+    ctx.fillStyle='#090d18';
+    ctx.fillRect(0,0,W,H);
+
+    ctx.strokeStyle='rgba(255,255,255,.035)';
+    ctx.lineWidth=1;
+    for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  }
+
+  function drawFruit(f) {
+    f.pulse += .035;
+    const pulse = 1 + Math.sin(f.pulse)*.08;
+
+    ctx.save();
+    ctx.translate(f.x,f.y);
+    ctx.scale(pulse,pulse);
+
+    ctx.shadowColor=f.color;
+    ctx.shadowBlur=28;
+    ctx.fillStyle=f.color;
+    ctx.globalAlpha=.24;
+    ctx.beginPath();ctx.arc(0,0,44,0,Math.PI*2);ctx.fill();
+
+    ctx.globalAlpha=1;
+    ctx.fillStyle='#101827';
+    ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();
+
+    ctx.shadowBlur=0;
+    ctx.font='46px Apple Color Emoji, Segoe UI Emoji, sans-serif';
+    ctx.textAlign='center';
+    ctx.textBaseline='middle';
+    ctx.fillText(f.emoji,0,2);
+
+    ctx.fillStyle='#ffffff';
+    ctx.globalAlpha=.75;
+    ctx.font='700 10px Inter, sans-serif';
+    ctx.fillText('YUM',0,49);
+    ctx.restore();
+    ctx.globalAlpha=1;
+  }
+
+  function sampleBody() {
+    const points=[trail[0]];
+    const spacing=14;
+    let lastPoint=trail[0];
+    let acc=0;
+
+    for(let i=1;i<trail.length && points.length<segments;i++){
+      const p=trail[i];
+      acc += Math.hypot(p.x-lastPoint.x,p.y-lastPoint.y);
+      if(acc>=spacing){
+        points.push(p);
+        acc=0;
       }
-      return pts;
+      lastPoint=p;
     }
+    return points.filter(Boolean);
+  }
 
-    function drawBackground(){
-      ctx.clearRect(0,0,W,H);
-      ctx.fillStyle = '#090d18';
-      ctx.fillRect(0,0,W,H);
+  function drawSnake() {
+    const body=sampleBody();
+    if(!body.length)return;
 
-      const step = Math.max(30, Math.min(W,H)*.07);
-      ctx.strokeStyle = 'rgba(255,255,255,.035)';
-      ctx.lineWidth = 1;
-      for(let x=0;x<W;x+=step){
-        ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();
-      }
-      for(let y=0;y<H;y+=step){
-        ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
-      }
-    }
-
-    function drawFood(t){
-      if(!food) return;
-      food.pulse += .05;
-      const pulse = 1 + Math.sin(food.pulse) * .08;
-
+    for(let i=body.length-1;i>=0;i--){
+      const p=body[i];
+      const radius=Math.max(9,18-i*.3);
+      const color=snakeColors[i%snakeColors.length];
       ctx.save();
-      ctx.translate(food.x,food.y);
-      ctx.scale(pulse,pulse);
-
-      const glow = food.golden ? '#ffd166' : '#ff5fa2';
-      ctx.shadowColor = glow;
-      ctx.shadowBlur = food.golden ? 28 : 18;
-      ctx.fillStyle = food.golden ? 'rgba(255,209,102,.16)' : 'rgba(255,95,162,.12)';
-      ctx.beginPath();
-      ctx.arc(0,0,food.r+10,0,Math.PI*2);
-      ctx.fill();
-
-      ctx.shadowBlur = 0;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = Math.round(food.r*1.75) + 'px Apple Color Emoji, Segoe UI Emoji, sans-serif';
-      ctx.fillText(food.emoji,0,2);
+      ctx.shadowColor=color;
+      ctx.shadowBlur=i===0?22:9;
+      ctx.fillStyle=color;
+      ctx.beginPath();ctx.arc(p.x,p.y,radius,0,Math.PI*2);ctx.fill();
       ctx.restore();
     }
 
-    function drawSnake(){
-      const body = sampleBody();
-      if(!body.length) return;
+    const h=body[0];
+    const angle=Math.atan2(pointer.y-head.y,pointer.x-head.x);
+    const eyeSide=7, eyeForward=7;
+    const ex1=h.x+Math.cos(angle)*eyeForward+Math.cos(angle+Math.PI/2)*eyeSide;
+    const ey1=h.y+Math.sin(angle)*eyeForward+Math.sin(angle+Math.PI/2)*eyeSide;
+    const ex2=h.x+Math.cos(angle)*eyeForward+Math.cos(angle-Math.PI/2)*eyeSide;
+    const ey2=h.y+Math.sin(angle)*eyeForward+Math.sin(angle-Math.PI/2)*eyeSide;
 
-      for(let i=body.length-1;i>=0;i--){
-        const p = body[i];
-        const t = i / Math.max(1,body.length-1);
-        const radius = Math.max(8, Math.min(W,H) * (.027 - t*.008));
-        const color = snakeColors[i % snakeColors.length];
+    ctx.fillStyle='#fff';
+    ctx.beginPath();ctx.arc(ex1,ey1,4.4,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ex2,ey2,4.4,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle='#111827';
+    ctx.beginPath();ctx.arc(ex1+Math.cos(angle)*1.7,ey1+Math.sin(angle)*1.7,2,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ex2+Math.cos(angle)*1.7,ey2+Math.sin(angle)*1.7,2,0,Math.PI*2);ctx.fill();
+  }
 
-        ctx.save();
-        ctx.shadowColor = color;
-        ctx.shadowBlur = i===0 ? 20 : 10;
-        ctx.fillStyle = color;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,radius,0,Math.PI*2);
-        ctx.fill();
-        ctx.restore();
-      }
+  function drawPointer() {
+    ctx.save();
+    ctx.strokeStyle='rgba(255,255,255,.22)';
+    ctx.lineWidth=2;
+    ctx.beginPath();ctx.arc(pointer.x,pointer.y,13,0,Math.PI*2);ctx.stroke();
+    ctx.restore();
+  }
 
-      const h = body[0];
-      const angle = Math.atan2(head.vy,head.vx);
-      const rr = Math.max(11, Math.min(W,H)*.027);
-      const side = rr*.45;
-      const forward = rr*.36;
-
-      const ex1 = h.x + Math.cos(angle)*forward + Math.cos(angle+Math.PI/2)*side;
-      const ey1 = h.y + Math.sin(angle)*forward + Math.sin(angle+Math.PI/2)*side;
-      const ex2 = h.x + Math.cos(angle)*forward + Math.cos(angle-Math.PI/2)*side;
-      const ey2 = h.y + Math.sin(angle)*forward + Math.sin(angle-Math.PI/2)*side;
-
-      ctx.fillStyle='#fff';
-      ctx.beginPath();ctx.arc(ex1,ey1,rr*.24,0,Math.PI*2);ctx.fill();
-      ctx.beginPath();ctx.arc(ex2,ey2,rr*.24,0,Math.PI*2);ctx.fill();
-
-      const pd = rr*.12;
-      ctx.fillStyle='#111827';
-      ctx.beginPath();
-      ctx.arc(ex1 + Math.cos(angle)*pd, ey1 + Math.sin(angle)*pd, rr*.11, 0, Math.PI*2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.arc(ex2 + Math.cos(angle)*pd, ey2 + Math.sin(angle)*pd, rr*.11, 0, Math.PI*2);
-      ctx.fill();
-
-      if(boosting){
-        ctx.strokeStyle='rgba(77,231,255,.65)';
-        ctx.lineWidth=Math.max(2,rr*.12);
-        ctx.beginPath();
-        ctx.moveTo(h.x-Math.cos(angle)*rr*1.3,h.y-Math.sin(angle)*rr*1.3);
-        ctx.lineTo(h.x-Math.cos(angle)*rr*2.2,h.y-Math.sin(angle)*rr*2.2);
-        ctx.stroke();
-      }
-    }
-
-    function drawParticles(){
-      particles.forEach(p=>{
-        ctx.globalAlpha=Math.max(0,p.life);
-        ctx.fillStyle=p.color;
-        ctx.beginPath();
-        ctx.arc(p.x,p.y,p.size,0,Math.PI*2);
-        ctx.fill();
-      });
-      ctx.globalAlpha=1;
-    }
-
-    function drawCursorHint(){
-      ctx.save();
-      ctx.strokeStyle='rgba(255,255,255,.17)';
-      ctx.lineWidth=2;
-      ctx.beginPath();
-      ctx.arc(pointer.x,pointer.y,12,0,Math.PI*2);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.moveTo(pointer.x-18,pointer.y);ctx.lineTo(pointer.x+18,pointer.y);
-      ctx.moveTo(pointer.x,pointer.y-18);ctx.lineTo(pointer.x,pointer.y+18);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    function frame(now){
-      resizeCanvasToDisplaySize();
-      const dt = Math.min(.033,(now-lastTime)/1000 || .016);
-      lastTime = now;
-
-      if(running) update(dt,now);
-
-      drawBackground();
-      drawFood(now);
-      drawSnake();
-      drawParticles();
-      if(running) drawCursorHint();
-
-      requestAnimationFrame(frame);
-    }
-
-    function start(){
-      reset();
-      running=true;
-      startOverlay.hidden=true;
-      stage.focus();
-    }
-
-    function restart(){
-      reset();
-      running=true;
-      startOverlay.hidden=true;
-      stage.focus();
-    }
-
-    startBtn.addEventListener('click',start);
-    restartBtn.addEventListener('click',restart);
-
-    stage.addEventListener('pointermove',e=>{
-      if(!running) return;
-      setPointerFromEvent(e);
+  function drawParticles(){
+    particles.forEach(p=>{
+      ctx.globalAlpha=Math.max(0,p.life);
+      ctx.fillStyle=p.color;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
     });
+    ctx.globalAlpha=1;
+  }
 
-    stage.addEventListener('pointerdown',e=>{
-      if(!running){
-        start();
-        setPointerFromEvent(e);
-      }else{
-        setPointerFromEvent(e);
-      }
-      boosting=true;
-      boostBtn.textContent='⚡ BOOSTING';
-      try{ stage.setPointerCapture(e.pointerId); }catch(_){}
-    });
-
-    stage.addEventListener('pointerup',e=>{
-      boosting=false;
-      boostBtn.textContent='⚡ Boost';
-      try{ stage.releasePointerCapture(e.pointerId); }catch(_){}
-    });
-
-    stage.addEventListener('pointercancel',()=>{
-      boosting=false;
-      boostBtn.textContent='⚡ Boost';
-    });
-
-    boostBtn.addEventListener('pointerdown',()=>{
-      boosting=true;
-      boostBtn.textContent='⚡ BOOSTING';
-    });
-    boostBtn.addEventListener('pointerup',()=>{
-      boosting=false;
-      boostBtn.textContent='⚡ Boost';
-    });
-    boostBtn.addEventListener('pointerleave',()=>{
-      boosting=false;
-      boostBtn.textContent='⚡ Boost';
-    });
-
-    window.addEventListener('resize',resizeCanvasToDisplaySize);
-
-    reset();
+  function frame(now){
+    const dt=Math.min(.033,(now-last)/1000||.016);
+    last=now;
+    update(dt);
+    drawBackground();
+    fruits.forEach(drawFruit);
+    drawSnake();
+    drawParticles();
+    drawPointer();
     requestAnimationFrame(frame);
-  })();
-  </script>
+  }
+
+  stage.addEventListener('pointermove',e=>{
+    pointer=toGamePoint(e);
+  });
+
+  stage.addEventListener('pointerdown',e=>{
+    pointer=toGamePoint(e);
+    try{stage.setPointerCapture(e.pointerId);}catch(_){}
+  });
+
+  restartBtn.addEventListener('click',reset);
+
+  reset();
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
