@@ -1,355 +1,130 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Jil's Snack Snake</title>
-  <meta name="description" content="A super easy mouse-following snack snake game by Jhilik Kabir." />
-  <style>
-    :root{
-      --bg:#0b1020;--panel:#12182b;--text:#f8fafc;--muted:#9fb0c8;--border:#2a3653;
-      --pink:#ff5fa2;--purple:#9b6cff;--cyan:#4de7ff;--green:#5cff9d;--yellow:#ffd166;
-      color-scheme:dark;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;min-height:100vh;padding:18px;
-      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 15% 15%,rgba(255,95,162,.18),transparent 28%),
-        radial-gradient(circle at 85% 10%,rgba(77,231,255,.16),transparent 25%),
-        radial-gradient(circle at 50% 95%,rgba(155,108,255,.18),transparent 30%),var(--bg);
-      display:grid;place-items:center;
-    }
-    .wrap{width:min(100%,920px);display:grid;gap:14px}
-    .hero{text-align:center}
-    .tag{display:inline-flex;align-items:center;gap:8px;padding:7px 11px;border:1px solid var(--border);border-radius:999px;background:rgba(18,24,43,.78);color:var(--muted);font-size:13px}
-    h1{margin:10px 0 5px;font-size:clamp(34px,6vw,56px);line-height:1;letter-spacing:-.04em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .sub{margin:0 auto;max-width:720px;color:var(--muted);font-size:15px;line-height:1.5}
-    .card{overflow:hidden;border:1px solid var(--border);border-radius:22px;background:rgba(18,24,43,.9);box-shadow:0 20px 70px rgba(0,0,0,.3)}
-    .bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border)}
-    .stats{display:flex;gap:20px;flex-wrap:wrap}
-    .stat span{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}
-    .stat strong{font-size:21px}
-    button{min-height:42px;padding:0 14px;border-radius:12px;border:0;color:white;background:linear-gradient(90deg,var(--pink),var(--purple));font:inherit;font-weight:800;cursor:pointer}
-    .stageWrap{padding:12px}
-    .stage{
-      position:relative;width:100%;aspect-ratio:16/10;min-height:360px;overflow:hidden;
-      border:1px solid var(--border);border-radius:18px;background:#090d18;cursor:crosshair;touch-action:none;
-    }
-    canvas{width:100%;height:100%;display:block}
-    .hint{
-      position:absolute;left:50%;top:16px;transform:translateX(-50%);
-      padding:7px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
-      background:rgba(9,13,24,.72);backdrop-filter:blur(6px);color:#dbeafe;font-size:12px;pointer-events:none;
-    }
-    .tips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 14px 16px;color:var(--muted);font-size:13px}
-    .pill{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:#0f1526}
-    .footer{text-align:center;color:var(--muted);font-size:13px}
-    a{color:#aab7ff;text-decoration:none}
-    @media(max-width:620px){
-      body{padding:10px}.stage{min-height:280px;aspect-ratio:4/5}.bar{align-items:stretch}.stats{gap:14px}.stat strong{font-size:18px}
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jil's Snack Snake</title>
+<style>
+:root{--bg:#0b1020;--panel:#12182b;--panel2:#0f1526;--text:#f8fafc;--muted:#9fb0c8;--border:#2a3653;--pink:#ff5fa2;--purple:#9b6cff;--cyan:#4de7ff;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;padding:16px;font-family:Inter,system-ui,sans-serif;color:var(--text);background:radial-gradient(circle at 15% 15%,rgba(255,95,162,.18),transparent 28%),radial-gradient(circle at 85% 10%,rgba(77,231,255,.16),transparent 25%),radial-gradient(circle at 50% 95%,rgba(155,108,255,.18),transparent 30%),var(--bg);display:grid;place-items:center}
+.wrap{width:min(100%,940px);display:grid;gap:14px}.hero{text-align:center}.tag{display:inline-flex;padding:7px 11px;border:1px solid var(--border);border-radius:999px;background:rgba(18,24,43,.8);color:var(--muted);font-size:13px}
+h1{margin:10px 0 5px;font-size:clamp(34px,6vw,56px);line-height:1;letter-spacing:-.04em;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}.sub{margin:0 auto;max-width:760px;color:var(--muted);line-height:1.5}
+.card{overflow:hidden;border:1px solid var(--border);border-radius:22px;background:rgba(18,24,43,.92);box-shadow:0 20px 70px rgba(0,0,0,.3)}.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;padding:13px 16px;border-bottom:1px solid var(--border)}
+.stats{display:flex;gap:18px;flex-wrap:wrap}.stat span{display:block;color:var(--muted);font-size:10px;letter-spacing:.12em;text-transform:uppercase}.stat strong{font-size:20px}.actions{display:flex;gap:8px;flex-wrap:wrap}
+button{min-height:42px;padding:0 14px;border-radius:12px;border:1px solid var(--border);color:var(--text);background:#20283d;font:inherit;font-weight:800;cursor:pointer}button.primary{border:0;background:linear-gradient(90deg,var(--pink),var(--purple))}
+.progressWrap{padding:10px 16px 0}.progressTop{display:flex;justify-content:space-between;gap:10px;color:var(--muted);font-size:12px;margin-bottom:7px}.progress{height:8px;border-radius:999px;background:#090d18;overflow:hidden}.progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--purple),var(--cyan));transition:width .2s}
+.stageWrap{padding:12px}.stage{position:relative;width:100%;aspect-ratio:16/10;min-height:360px;overflow:hidden;border:1px solid var(--border);border-radius:18px;background:#090d18;cursor:crosshair;touch-action:none}canvas{width:100%;height:100%;display:block}
+.hint{position:absolute;left:50%;top:14px;transform:translateX(-50%);max-width:calc(100% - 24px);padding:7px 11px;border:1px solid rgba(255,255,255,.12);border-radius:999px;background:rgba(9,13,24,.78);color:#dbeafe;font-size:12px;text-align:center;pointer-events:none}
+.banner{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.92);padding:16px 22px;border-radius:18px;background:rgba(15,21,38,.94);border:1px solid rgba(255,255,255,.15);text-align:center;opacity:0;pointer-events:none;transition:.18s;box-shadow:0 18px 60px rgba(0,0,0,.35)}.banner.show{opacity:1;transform:translate(-50%,-50%) scale(1)}.banner b{display:block;font-size:30px}.banner span{color:var(--muted)}
+.toasts{position:absolute;right:12px;bottom:12px;display:grid;gap:8px;max-width:min(320px,calc(100% - 24px));pointer-events:none}.toast{padding:10px 12px;border:1px solid rgba(255,255,255,.13);border-radius:13px;background:rgba(15,21,38,.94);font-size:13px;box-shadow:0 10px 35px rgba(0,0,0,.3)}.toast b{display:block}.toast small{color:var(--muted)}
+.tips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 14px 14px;color:var(--muted);font-size:13px}.pill{padding:7px 10px;border:1px solid var(--border);border-radius:999px;background:var(--panel2)}
+.ach{padding:0 14px 16px}.ach h2{font-size:15px;margin:0 0 10px}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.badge{padding:10px;border:1px solid var(--border);border-radius:13px;background:var(--panel2);display:flex;gap:8px;align-items:center;min-width:0}.badge.locked{opacity:.42;filter:saturate(.45)}.badge .icon{font-size:22px}.badge b{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.badge small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.surprise{text-align:center;padding:0 14px 16px;color:var(--muted);font-size:12px}.footer{text-align:center;color:var(--muted);font-size:13px}a{color:#aab7ff;text-decoration:none}
+@media(max-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:620px){body{padding:9px}.stage{min-height:300px;aspect-ratio:4/5}.bar{align-items:stretch}.actions{width:100%}.actions button{flex:1}.hint{border-radius:14px}.stats{gap:12px}}
+</style>
 </head>
 <body>
 <main class="wrap">
-  <section class="hero">
-    <div class="tag">🎮 JIL'S GITHUB ARCADE · EASY MODE</div>
-    <h1>Snack Snake</h1>
-    <p class="sub">Just move your mouse. The snake follows it. Guide the snake onto the big fruits, eat, grow, repeat. No game over. No stress. 😄</p>
-  </section>
+<section class="hero">
+<div class="tag">🎮 JIL'S GITHUB ARCADE · EASY + FUN MODE</div>
+<h1>Snack Snake</h1>
+<p class="sub">Move your mouse, eat snacks, grow the snake, level up, unlock achievements and catch surprise drops. No death screen — just timepass. 😄</p>
+</section>
 
-  <section class="card">
-    <div class="bar">
-      <div class="stats">
-        <div class="stat"><span>Fruits</span><strong id="score">0</strong></div>
-        <div class="stat"><span>Snake size</span><strong id="length">12</strong></div>
-        <div class="stat"><span>Best</span><strong id="best">0</strong></div>
-      </div>
-      <button id="restartBtn" type="button">Restart snacks</button>
-    </div>
+<section class="card">
+<div class="bar">
+  <div class="stats">
+    <div class="stat"><span>Snacks</span><strong id="score">0</strong></div>
+    <div class="stat"><span>Level</span><strong id="level">1</strong></div>
+    <div class="stat"><span>Snake</span><strong id="length">12</strong></div>
+    <div class="stat"><span>Achievements</span><strong id="achCount">0/7</strong></div>
+  </div>
+  <div class="actions">
+    <button id="soundBtn" type="button">🔊 Sound: On</button>
+    <button id="restartBtn" class="primary" type="button">Restart</button>
+  </div>
+</div>
 
-    <div class="stageWrap">
-      <div class="stage" id="stage">
-        <canvas id="game" width="960" height="600" aria-label="Easy mouse-following snake game"></canvas>
-        <div class="hint">🖱️ Move your mouse toward a fruit — the snake follows</div>
-      </div>
-    </div>
+<div class="progressWrap">
+  <div class="progressTop"><span id="levelName">Level 1 · Picnic</span><span id="nextLevel">5 snacks to next level</span></div>
+  <div class="progress"><span id="levelProgress"></span></div>
+</div>
 
-    <div class="tips">
-      <span class="pill">🍎 5 big fruits always visible</span>
-      <span class="pill">🐍 Snake follows your mouse</span>
-      <span class="pill">✨ Bigger hit area = easier eating</span>
-      <span class="pill">📱 Touch + drag works too</span>
-    </div>
-  </section>
+<div class="stageWrap">
+  <div class="stage" id="stage">
+    <canvas id="game" width="960" height="600"></canvas>
+    <div class="hint" id="hint">🖱️ Move toward a snack · click once to enable sound</div>
+    <div class="banner" id="banner"><b id="bannerTitle">LEVEL UP!</b><span id="bannerText"></span></div>
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+  </div>
+</div>
 
-  <div class="footer">Made for fun by <a href="https://github.com/jilkabir">Jhilik Kabir</a> · GitHub Arcade 2026 ✨</div>
+<div class="tips">
+  <span class="pill">🍎 5 snacks always visible</span>
+  <span class="pill">🎁 Surprise every 7 snacks</span>
+  <span class="pill">✨ Rare golden + rainbow snacks</span>
+  <span class="pill">📱 Mouse + touch</span>
+</div>
+
+<div class="ach">
+  <h2>🏆 Achievement Shelf</h2>
+  <div class="grid" id="badgeGrid"></div>
+</div>
+<div class="surprise" id="surpriseText">Next surprise drop: 7 snacks 🎁</div>
+</section>
+
+<div class="footer">Made for fun by <a href="https://github.com/jilkabir">Jhilik Kabir</a> · GitHub Arcade 2026 ✨</div>
 </main>
 
 <script>
 (() => {
-  const canvas = document.getElementById('game');
-  const ctx = canvas.getContext('2d');
-  const stage = document.getElementById('stage');
-  const scoreEl = document.getElementById('score');
-  const lengthEl = document.getElementById('length');
-  const bestEl = document.getElementById('best');
-  const restartBtn = document.getElementById('restartBtn');
+const canvas=document.getElementById('game'),ctx=canvas.getContext('2d'),stage=document.getElementById('stage');
+const scoreEl=document.getElementById('score'),levelEl=document.getElementById('level'),lengthEl=document.getElementById('length'),achCountEl=document.getElementById('achCount');
+const levelNameEl=document.getElementById('levelName'),nextLevelEl=document.getElementById('nextLevel'),levelProgressEl=document.getElementById('levelProgress'),surpriseTextEl=document.getElementById('surpriseText');
+const soundBtn=document.getElementById('soundBtn'),restartBtn=document.getElementById('restartBtn'),hint=document.getElementById('hint'),banner=document.getElementById('banner'),bannerTitle=document.getElementById('bannerTitle'),bannerText=document.getElementById('bannerText'),toasts=document.getElementById('toasts'),badgeGrid=document.getElementById('badgeGrid');
+const W=960,H=600,levelNames=['Picnic','Berry Blast','Neon Feast','Golden Garden','Cosmic Buffet','Snack Legend'];
+const pool=[['🍎','#ff5f6d',1],['🍊','#ff9f43',1],['🍇','#9b6cff',1],['🍉','#5cff9d',1],['🍓','#ff4d8d',1],['🍒','#ff5f6d',1],['🍍','#ffd166',2],['🥝','#80ed99',2],['🍑','#ff9f9f',3],['🫐','#6c7dff',3],['🍌','#ffe66d',4],['🥭','#ffb347',4]];
+const snakeColors=['#ff5fa2','#b46cff','#7d8cff','#4de7ff','#5cff9d'];
+const defs=[['first','🍎','First Bite','Eat 1 snack'],['grow','🐍','Growing Up','Reach size 30'],['ten','😋','Snack Attack','Eat 10 snacks'],['gold','✨','Golden Taste','Eat a golden snack'],['rainbow','🌈','Party Animal','Find rainbow mode'],['level3','🚀','Level Hopper','Reach level 3'],['legend','👑','Snack Legend','Eat 30 snacks']];
 
-  const W = canvas.width, H = canvas.height;
-  const fruitTypes = [
-    {emoji:'🍎', color:'#ff5f6d'},
-    {emoji:'🍊', color:'#ff9f43'},
-    {emoji:'🍇', color:'#9b6cff'},
-    {emoji:'🍉', color:'#5cff9d'},
-    {emoji:'🍓', color:'#ff4d8d'},
-    {emoji:'🍒', color:'#ff5f6d'}
-  ];
-  const snakeColors = ['#ff5fa2','#b46cff','#7d8cff','#4de7ff','#5cff9d'];
+let pointer={x:640,y:300},head={x:290,y:300},trail=[],fruits=[],particles=[],segments=12,score=0,level=1,last=performance.now(),partyUntil=0,magnetUntil=0,giantUntil=0,audioCtx=null,soundOn=true,achievements={},bannerTimer=null;
+try{soundOn=localStorage.getItem('jil-snack-sound')!=='off';achievements=JSON.parse(localStorage.getItem('jil-snack-achievements')||'{}')||{}}catch(_){}
+soundBtn.textContent=soundOn?'🔊 Sound: On':'🔇 Sound: Off';
 
-  let pointer = {x: W * .66, y: H * .5};
-  let head = {x: W * .30, y: H * .5};
-  let trail = [];
-  let fruits = [];
-  let particles = [];
-  let segments = 12;
-  let score = 0;
-  let best = 0;
-  let last = performance.now();
+function ensureAudio(){if(!soundOn)return;try{if(!audioCtx){const A=window.AudioContext||window.webkitAudioContext;if(A)audioCtx=new A()}if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();if(audioCtx)hint.textContent='🖱️ Move your mouse toward a snack — the snake follows'}catch(_){}}
+function tone(f,d,type='sine',vol=.03,delay=0){if(!soundOn||!audioCtx)return;const t=audioCtx.currentTime+delay,o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(.0001,t);g.gain.linearRampToValueAtTime(vol,t+.008);g.gain.exponentialRampToValueAtTime(.0001,t+d);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+d+.02)}
+function eatSound(){tone(220,.06,'square',.022);tone(340,.08,'sine',.025,.035)}function specialSound(){[330,495,660].forEach((f,i)=>tone(f,.12,'triangle',.03,i*.07))}function levelSound(){[440,554,659,880].forEach((f,i)=>tone(f,.14,'sine',.035,i*.075))}function achSound(){[523,659,784].forEach((f,i)=>tone(f,.16,'triangle',.03,i*.09))}
+function toast(title,text){const n=document.createElement('div');n.className='toast';n.innerHTML='<b>'+title+'</b><small>'+text+'</small>';toasts.appendChild(n);setTimeout(()=>n.remove(),3200)}
+function showBanner(title,text){clearTimeout(bannerTimer);bannerTitle.textContent=title;bannerText.textContent=text;banner.classList.add('show');bannerTimer=setTimeout(()=>banner.classList.remove('show'),1900)}
+function saveAch(){try{localStorage.setItem('jil-snack-achievements',JSON.stringify(achievements))}catch(_){}}
+function renderAch(){badgeGrid.innerHTML='';let c=0;defs.forEach(d=>{if(achievements[d[0]])c++;const n=document.createElement('div');n.className='badge'+(achievements[d[0]]?'':' locked');n.innerHTML='<span class="icon">'+(achievements[d[0]]?d[1]:'🔒')+'</span><span><b>'+d[2]+'</b><small>'+d[3]+'</small></span>';badgeGrid.appendChild(n)});achCountEl.textContent=c+'/'+defs.length}
+function unlock(id){if(achievements[id])return;const d=defs.find(x=>x[0]===id);if(!d)return;achievements[id]=true;saveAch();renderAch();toast('🏆 '+d[2],d[3]);achSound()}
 
-  try { best = Number(localStorage.getItem('jil-snack-snake-best') || 0); } catch (_) {}
-  bestEl.textContent = String(best);
+function fruitPos(){const m=76;for(let k=0;k<30;k++){const p={x:m+Math.random()*(W-m*2),y:m+Math.random()*(H-m*2)};if(Math.hypot(p.x-head.x,p.y-head.y)>105&&fruits.every(f=>Math.hypot(p.x-f.x,p.y-f.y)>88))return p}return{x:m+Math.random()*(W-m*2),y:m+Math.random()*(H-m*2)}}
+function normalFruit(){const avail=pool.filter(x=>x[2]<=level),t=avail[Math.floor(Math.random()*avail.length)],p=fruitPos();return{x:p.x,y:p.y,emoji:t[0],color:t[1],r:32,pulse:Math.random()*6.28,special:''}}
+function randomFruit(){const r=Math.random(),p=fruitPos();if(level>=3&&r<.055)return{x:p.x,y:p.y,emoji:'🌈',color:'#7dd3fc',r:36,pulse:0,special:'rainbow'};if(level>=2&&r<.15)return{x:p.x,y:p.y,emoji:'🌟',color:'#ffd166',r:36,pulse:0,special:'golden'};return normalFruit()}
+function gift(){const p=fruitPos();return{x:p.x,y:p.y,emoji:'🎁',color:'#ffd166',r:39,pulse:0,special:'gift'}}
 
-  function fruitPosition() {
-    const margin = 78;
-    return {
-      x: margin + Math.random() * (W - margin * 2),
-      y: margin + Math.random() * (H - margin * 2)
-    };
-  }
+function updateUI(){levelEl.textContent=level;const name=levelNames[Math.min(level-1,levelNames.length-1)],within=score%5,left=5-within;levelNameEl.textContent='Level '+level+' · '+name;nextLevelEl.textContent=left+' snack'+(left===1?'':'s')+' to next level';levelProgressEl.style.width=(within*20)+'%';const drop=7-(score%7);surpriseTextEl.textContent='Next surprise drop: '+drop+' snack'+(drop===1?'':'s')+' 🎁'}
+function reset(){pointer={x:640,y:300};head={x:290,y:300};trail=[];for(let i=0;i<190;i++)trail.push({x:head.x-i*2.4,y:head.y});fruits=[];particles=[];segments=12;score=0;level=1;partyUntil=magnetUntil=giantUntil=0;for(let i=0;i<5;i++)fruits.push(normalFruit());scoreEl.textContent='0';lengthEl.textContent=segments;updateUI()}
+function point(e){const r=canvas.getBoundingClientRect();return{x:Math.max(0,Math.min(W,(e.clientX-r.left)*(W/r.width))),y:Math.max(0,Math.min(H,(e.clientY-r.top)*(H/r.height)))}}
+function burst(f,n=20){for(let i=0;i<n;i++)particles.push({x:f.x,y:f.y,vx:(Math.random()-.5)*8,vy:(Math.random()-.5)*8,life:1,size:2+Math.random()*5,color:f.color})}
 
-  function makeFruit() {
-    const type = fruitTypes[Math.floor(Math.random() * fruitTypes.length)];
-    const p = fruitPosition();
-    return {x:p.x,y:p.y,emoji:type.emoji,color:type.color,r:31,pulse:Math.random()*Math.PI*2};
-  }
+function giftPower(now){const a=['magnet','giant','growth','party'][Math.floor(Math.random()*4)];if(a==='magnet'){magnetUntil=now+6500;toast('🧲 Fruit Magnet!','Snacks drift toward you for 6 seconds.')}else if(a==='giant'){giantUntil=now+7000;toast('🍉 Mega Snack Mode!','Everything gets huge for 7 seconds.')}else if(a==='growth'){segments+=10;lengthEl.textContent=segments;toast('🐍 Instant Growth!','Your snake gained 10 segments.')}else{partyUntil=now+7000;toast('🌈 Rainbow Party!','Seven seconds of unnecessary joy.');unlock('rainbow')}specialSound()}
+function eat(i,now){const f=fruits[i];score++;if(f.special==='golden'){segments+=5;unlock('gold');toast('✨ Golden snack!','Extra growth unlocked.');specialSound()}else if(f.special==='rainbow'){segments+=4;partyUntil=now+7000;unlock('rainbow');toast('🌈 Rainbow snack!','Party mode activated.');specialSound()}else if(f.special==='gift'){segments+=2;giftPower(now)}else{segments+=2;eatSound()}burst(f,f.special?28:18);scoreEl.textContent=score;lengthEl.textContent=segments;unlock('first');if(segments>=30)unlock('grow');if(score>=10)unlock('ten');if(score>=30)unlock('legend');const nl=1+Math.floor(score/5);if(nl>level){level=nl;showBanner('LEVEL '+level+'! 🎉',levelNames[Math.min(level-1,levelNames.length-1)]);levelSound();if(level>=3)unlock('level3')}fruits[i]=score%7===0?gift():randomFruit();if(score%7===0)toast('🎁 Surprise drop!','Catch the gift for a random power-up.');updateUI()}
 
-  function reset() {
-    pointer = {x:W*.66,y:H*.5};
-    head = {x:W*.30,y:H*.5};
-    trail = [];
-    for(let i=0;i<180;i++) trail.push({x:head.x-i*2.4,y:head.y});
-    fruits = Array.from({length:5}, makeFruit);
-    particles = [];
-    segments = 12;
-    score = 0;
-    scoreEl.textContent = '0';
-    lengthEl.textContent = String(segments);
-  }
+function update(dt,now){const dx=pointer.x-head.x,dy=pointer.y-head.y,d=Math.hypot(dx,dy);if(d>1){const f=Math.min(1,dt*4.4);head.x+=dx*f;head.y+=dy*f}head.x=Math.max(18,Math.min(W-18,head.x));head.y=Math.max(18,Math.min(H-18,head.y));trail.unshift({x:head.x,y:head.y});const keep=Math.max(280,segments*38);if(trail.length>keep)trail.length=keep;if(now<magnetUntil)fruits.forEach(f=>{const d=Math.hypot(head.x-f.x,head.y-f.y);if(d<300&&d>1){f.x+=(head.x-f.x)*dt*.38;f.y+=(head.y-f.y)*dt*.38}});fruits.forEach((f,i)=>{if(Math.hypot(head.x-f.x,head.y-f.y)<((now<giantUntil?78:62)+(f.special?8:0)))eat(i,now)});particles.forEach(p=>{p.x+=p.vx*60*dt;p.y+=p.vy*60*dt;p.vx*=.96;p.vy*=.96;p.life-=dt*1.6});particles=particles.filter(p=>p.life>0)}
+function bg(now){ctx.fillStyle=now<partyUntil?'hsl('+((now/18)%360)+' 38% 11%)':'#090d18';ctx.fillRect(0,0,W,H);ctx.strokeStyle='rgba(255,255,255,.035)';for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}if(now<partyUntil&&Math.random()<.12)particles.push({x:Math.random()*W,y:-5,vx:(Math.random()-.5)*2,vy:2+Math.random()*3,life:1.8,size:3+Math.random()*5,color:snakeColors[Math.floor(Math.random()*snakeColors.length)]})}
+function drawFruit(f,now){f.pulse+=.04;const pulse=1+Math.sin(f.pulse)*.08,r=f.r*(now<giantUntil?1.28:1);ctx.save();ctx.translate(f.x,f.y);ctx.scale(pulse,pulse);ctx.shadowColor=f.color;ctx.shadowBlur=f.special?38:26;ctx.fillStyle=f.color;ctx.globalAlpha=.22;ctx.beginPath();ctx.arc(0,0,r+14,0,6.29);ctx.fill();ctx.globalAlpha=1;ctx.fillStyle='#101827';ctx.beginPath();ctx.arc(0,0,r+2,0,6.29);ctx.fill();ctx.shadowBlur=0;ctx.font=Math.round(r*1.38)+'px Apple Color Emoji, Segoe UI Emoji, sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(f.emoji,0,2);ctx.fillStyle='#fff';ctx.globalAlpha=.72;ctx.font='700 10px Inter,sans-serif';ctx.fillText(f.special==='gift'?'SURPRISE':(f.special?'RARE':'YUM'),0,r+18);ctx.restore();ctx.globalAlpha=1}
+function body(){const pts=[];if(!trail[0])return pts;pts.push(trail[0]);let lp=trail[0],acc=0;for(let i=1;i<trail.length&&pts.length<segments;i++){const p=trail[i];acc+=Math.hypot(p.x-lp.x,p.y-lp.y);if(acc>=14){pts.push(p);acc=0}lp=p}return pts}
+function drawSnake(now){const b=body();if(!b.length)return;for(let i=b.length-1;i>=0;i--){const p=b[i],r=Math.max(9,18-i*.25),c=now<partyUntil?'hsl('+((now/8+i*18)%360)+' 85% 65%)':snakeColors[i%snakeColors.length];ctx.save();ctx.shadowColor=c;ctx.shadowBlur=i===0?22:8;ctx.fillStyle=c;ctx.beginPath();ctx.arc(p.x,p.y,r,0,6.29);ctx.fill();ctx.restore()}const h=b[0],a=Math.atan2(pointer.y-head.y,pointer.x-head.x),s=7,f=7,e1=[h.x+Math.cos(a)*f+Math.cos(a+Math.PI/2)*s,h.y+Math.sin(a)*f+Math.sin(a+Math.PI/2)*s],e2=[h.x+Math.cos(a)*f+Math.cos(a-Math.PI/2)*s,h.y+Math.sin(a)*f+Math.sin(a-Math.PI/2)*s];ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(e1[0],e1[1],4.5,0,6.29);ctx.fill();ctx.beginPath();ctx.arc(e2[0],e2[1],4.5,0,6.29);ctx.fill();ctx.fillStyle='#111827';ctx.beginPath();ctx.arc(e1[0]+Math.cos(a)*1.7,e1[1]+Math.sin(a)*1.7,2,0,6.29);ctx.fill();ctx.beginPath();ctx.arc(e2[0]+Math.cos(a)*1.7,e2[1]+Math.sin(a)*1.7,2,0,6.29);ctx.fill()}
+function drawParticles(){particles.forEach(p=>{ctx.globalAlpha=Math.max(0,Math.min(1,p.life));ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,6.29);ctx.fill()});ctx.globalAlpha=1}
+function cursor(){ctx.strokeStyle='rgba(255,255,255,.2)';ctx.lineWidth=2;ctx.beginPath();ctx.arc(pointer.x,pointer.y,13,0,6.29);ctx.stroke()}
+function frame(now){const dt=Math.min(.033,(now-last)/1000||.016);last=now;update(dt,now);bg(now);fruits.forEach(f=>drawFruit(f,now));drawSnake(now);drawParticles();cursor();requestAnimationFrame(frame)}
 
-  function toGamePoint(e) {
-    const r = canvas.getBoundingClientRect();
-    return {
-      x: Math.max(0,Math.min(W,(e.clientX-r.left)*(W/r.width))),
-      y: Math.max(0,Math.min(H,(e.clientY-r.top)*(H/r.height)))
-    };
-  }
-
-  function eatFruit(index) {
-    const f = fruits[index];
-    score += 1;
-    segments += 2;
-    scoreEl.textContent = String(score);
-    lengthEl.textContent = String(segments);
-
-    if(score > best){
-      best = score;
-      bestEl.textContent = String(best);
-      try { localStorage.setItem('jil-snack-snake-best',String(best)); } catch (_) {}
-    }
-
-    for(let i=0;i<18;i++){
-      particles.push({
-        x:f.x,y:f.y,
-        vx:(Math.random()-.5)*7,
-        vy:(Math.random()-.5)*7,
-        life:1,
-        size:2+Math.random()*5,
-        color:f.color
-      });
-    }
-    fruits[index] = makeFruit();
-  }
-
-  function update(dt) {
-    const dx = pointer.x-head.x;
-    const dy = pointer.y-head.y;
-    const dist = Math.hypot(dx,dy);
-
-    if(dist > 2){
-      const follow = Math.min(1, dt * 4.2);
-      head.x += dx * follow;
-      head.y += dy * follow;
-    }
-
-    head.x = Math.max(18,Math.min(W-18,head.x));
-    head.y = Math.max(18,Math.min(H-18,head.y));
-
-    trail.unshift({x:head.x,y:head.y});
-    const keep = Math.max(250, segments * 34);
-    if(trail.length > keep) trail.length = keep;
-
-    fruits.forEach((f,i)=>{
-      if(Math.hypot(head.x-f.x,head.y-f.y) < 58) eatFruit(i);
-    });
-
-    particles.forEach(p=>{
-      p.x += p.vx*60*dt;
-      p.y += p.vy*60*dt;
-      p.vx *= .96;
-      p.vy *= .96;
-      p.life -= dt*1.7;
-    });
-    particles = particles.filter(p=>p.life>0);
-  }
-
-  function drawBackground() {
-    ctx.fillStyle='#090d18';
-    ctx.fillRect(0,0,W,H);
-
-    ctx.strokeStyle='rgba(255,255,255,.035)';
-    ctx.lineWidth=1;
-    for(let x=0;x<W;x+=48){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
-    for(let y=0;y<H;y+=48){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-  }
-
-  function drawFruit(f) {
-    f.pulse += .035;
-    const pulse = 1 + Math.sin(f.pulse)*.08;
-
-    ctx.save();
-    ctx.translate(f.x,f.y);
-    ctx.scale(pulse,pulse);
-
-    ctx.shadowColor=f.color;
-    ctx.shadowBlur=28;
-    ctx.fillStyle=f.color;
-    ctx.globalAlpha=.24;
-    ctx.beginPath();ctx.arc(0,0,44,0,Math.PI*2);ctx.fill();
-
-    ctx.globalAlpha=1;
-    ctx.fillStyle='#101827';
-    ctx.beginPath();ctx.arc(0,0,34,0,Math.PI*2);ctx.fill();
-
-    ctx.shadowBlur=0;
-    ctx.font='46px Apple Color Emoji, Segoe UI Emoji, sans-serif';
-    ctx.textAlign='center';
-    ctx.textBaseline='middle';
-    ctx.fillText(f.emoji,0,2);
-
-    ctx.fillStyle='#ffffff';
-    ctx.globalAlpha=.75;
-    ctx.font='700 10px Inter, sans-serif';
-    ctx.fillText('YUM',0,49);
-    ctx.restore();
-    ctx.globalAlpha=1;
-  }
-
-  function sampleBody() {
-    const points=[trail[0]];
-    const spacing=14;
-    let lastPoint=trail[0];
-    let acc=0;
-
-    for(let i=1;i<trail.length && points.length<segments;i++){
-      const p=trail[i];
-      acc += Math.hypot(p.x-lastPoint.x,p.y-lastPoint.y);
-      if(acc>=spacing){
-        points.push(p);
-        acc=0;
-      }
-      lastPoint=p;
-    }
-    return points.filter(Boolean);
-  }
-
-  function drawSnake() {
-    const body=sampleBody();
-    if(!body.length)return;
-
-    for(let i=body.length-1;i>=0;i--){
-      const p=body[i];
-      const radius=Math.max(9,18-i*.3);
-      const color=snakeColors[i%snakeColors.length];
-      ctx.save();
-      ctx.shadowColor=color;
-      ctx.shadowBlur=i===0?22:9;
-      ctx.fillStyle=color;
-      ctx.beginPath();ctx.arc(p.x,p.y,radius,0,Math.PI*2);ctx.fill();
-      ctx.restore();
-    }
-
-    const h=body[0];
-    const angle=Math.atan2(pointer.y-head.y,pointer.x-head.x);
-    const eyeSide=7, eyeForward=7;
-    const ex1=h.x+Math.cos(angle)*eyeForward+Math.cos(angle+Math.PI/2)*eyeSide;
-    const ey1=h.y+Math.sin(angle)*eyeForward+Math.sin(angle+Math.PI/2)*eyeSide;
-    const ex2=h.x+Math.cos(angle)*eyeForward+Math.cos(angle-Math.PI/2)*eyeSide;
-    const ey2=h.y+Math.sin(angle)*eyeForward+Math.sin(angle-Math.PI/2)*eyeSide;
-
-    ctx.fillStyle='#fff';
-    ctx.beginPath();ctx.arc(ex1,ey1,4.4,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(ex2,ey2,4.4,0,Math.PI*2);ctx.fill();
-    ctx.fillStyle='#111827';
-    ctx.beginPath();ctx.arc(ex1+Math.cos(angle)*1.7,ey1+Math.sin(angle)*1.7,2,0,Math.PI*2);ctx.fill();
-    ctx.beginPath();ctx.arc(ex2+Math.cos(angle)*1.7,ey2+Math.sin(angle)*1.7,2,0,Math.PI*2);ctx.fill();
-  }
-
-  function drawPointer() {
-    ctx.save();
-    ctx.strokeStyle='rgba(255,255,255,.22)';
-    ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(pointer.x,pointer.y,13,0,Math.PI*2);ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawParticles(){
-    particles.forEach(p=>{
-      ctx.globalAlpha=Math.max(0,p.life);
-      ctx.fillStyle=p.color;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fill();
-    });
-    ctx.globalAlpha=1;
-  }
-
-  function frame(now){
-    const dt=Math.min(.033,(now-last)/1000||.016);
-    last=now;
-    update(dt);
-    drawBackground();
-    fruits.forEach(drawFruit);
-    drawSnake();
-    drawParticles();
-    drawPointer();
-    requestAnimationFrame(frame);
-  }
-
-  stage.addEventListener('pointermove',e=>{
-    pointer=toGamePoint(e);
-  });
-
-  stage.addEventListener('pointerdown',e=>{
-    pointer=toGamePoint(e);
-    try{stage.setPointerCapture(e.pointerId);}catch(_){}
-  });
-
-  restartBtn.addEventListener('click',reset);
-
-  reset();
-  requestAnimationFrame(frame);
+stage.addEventListener('pointermove',e=>pointer=point(e));stage.addEventListener('pointerdown',e=>{ensureAudio();pointer=point(e);try{stage.setPointerCapture(e.pointerId)}catch(_){}});
+soundBtn.addEventListener('click',()=>{soundOn=!soundOn;try{localStorage.setItem('jil-snack-sound',soundOn?'on':'off')}catch(_){}soundBtn.textContent=soundOn?'🔊 Sound: On':'🔇 Sound: Off';if(soundOn){ensureAudio();specialSound()}});
+restartBtn.addEventListener('click',()=>{ensureAudio();reset();toast('🍎 Fresh picnic!','Score reset. Achievements stay unlocked.')});
+renderAch();reset();requestAnimationFrame(frame);
 })();
 </script>
 </body>
