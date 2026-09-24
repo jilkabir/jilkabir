@@ -57,6 +57,10 @@
   <sub>Research, builds, travel, writing, experiments — pick your rabbit hole 🐇</sub>
 </p>
 
+</div>
+
+---
+
 ## 👋 A little about me
 
 I'm **Jhilik Kabir**, **CTO & Co-Founder at Miraiyo**. My background spans **SEO, branding, digital strategy, content, and creative communication**, with more than seven years of experience across those areas.
