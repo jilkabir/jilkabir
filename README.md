@@ -9,6 +9,7 @@
 ### 🌐 Find me around the internet
 
 <a href="https://www.linkedin.com/in/jilkabir/"><img src="https://img.shields.io/badge/LinkedIn-Jhilik%20Kabir-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+<a href="mailto:hello@jkabir.com"><img src="https://img.shields.io/badge/Email-hello%40jkabir.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
 <a href="https://www.instagram.com/jilkabir"><img src="https://img.shields.io/badge/Instagram-@jilkabir-E4405F?style=for-the-badge&logo=instagram&logoColor=white" alt="Instagram"></a>
 <a href="https://x.com/JillKabir"><img src="https://img.shields.io/badge/X-@JillKabir-111111?style=for-the-badge&logo=x&logoColor=white" alt="X"></a>
 <a href="https://www.threads.com/@jilkabir"><img src="https://img.shields.io/badge/Threads-@jilkabir-000000?style=for-the-badge&logo=threads&logoColor=white" alt="Threads"></a>
